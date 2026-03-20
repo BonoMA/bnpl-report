@@ -6,7 +6,7 @@
   <title>资产质量看板 - AKULAKU FINANCE Indonesia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-primary: #ffffff;
@@ -22,8 +22,9 @@
       --border-dark: #d1d5db;
       --text-primary: #1a1a1a;
       --text-secondary: #6b7280;
-      --font-main: 'Inter', 'Noto Sans SC', sans-serif;
-      --font-mono: 'DM Mono', monospace;
+      --font-cn: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      --font-display: 'Noto Serif SC', 'Songti SC', serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
     }
 
     * {
@@ -37,10 +38,10 @@
     }
 
     body {
-      font-family: var(--font-main);
+      font-family: var(--font-cn);
       background: var(--bg-secondary);
       color: var(--text-primary);
-      line-height: 1.5;
+      line-height: 1.6;
       font-size: 16px;
     }
 
@@ -98,7 +99,7 @@
       padding: 10px 20px;
       color: #d1d5db;
       text-decoration: none;
-      font-size: 14px;
+      font-size: 15px;
       transition: all 0.15s ease;
       border-left: 3px solid transparent;
     }
@@ -134,13 +135,15 @@
     }
 
     .header-left h1 {
-      font-size: 28px;
+      font-family: var(--font-display);
+      font-size: 32px;
       font-weight: 700;
       margin-bottom: 4px;
     }
 
     .header-left .subtitle {
-      font-size: 14px;
+      font-family: var(--font-cn);
+      font-size: 15px;
       color: var(--text-secondary);
     }
 
@@ -190,7 +193,8 @@
     }
 
     .section-title {
-      font-size: 18px;
+      font-family: var(--font-display);
+      font-size: 20px;
       font-weight: 600;
       display: flex;
       align-items: center;
@@ -200,7 +204,7 @@
     .section-title::before {
       content: '';
       width: 4px;
-      height: 20px;
+      height: 22px;
       background: var(--accent-red);
     }
 
@@ -231,14 +235,14 @@
 
     .kpi-value {
       font-family: var(--font-mono);
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 600;
       color: var(--text-primary);
       line-height: 1.2;
     }
 
     .kpi-value.large {
-      font-size: 32px;
+      font-size: 36px;
     }
 
     .kpi-change {
