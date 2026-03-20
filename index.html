@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BNPL月度资产质量报告 - 2026年3月</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Mono:wght@300;400;500&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0d0d0f;
+      --bg-secondary: #141418;
+      --bg-card: #1a1a1f;
+      --bg-card-hover: #222228;
+      --accent-amber: #e8a849;
+      --accent-amber-dim: #c4893a;
+      --accent-green: #4ade80;
+      --accent-red: #f87171;
+      --accent-orange: #fb923c;
+      --accent-blue: #60a5fa;
+      --text-primary: #f5f5f5;
+      --text-secondary: #a1a1aa;
+      --text-dim: #71717a;
+      --border: #27272a;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-mono: 'DM Mono', 'Courier New', monospace;
+      --font-cn: 'Noto Sans SC', 'PingFang SC', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-cn);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      z-index: 1000;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 80px 40px 120px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 100px;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 40px;
+    }
+
+    .header-left {
+      flex: 1;
+    }
+
+    .report-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--accent-amber);
+      margin-bottom: 16px;
+    }
+
+    .report-title {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 6vw, 72px);
+      font-weight: 600;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+    }
+
+    .report-subtitle {
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3vw, 36px);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    .header-right {
+      text-align: right;
+      padding-top: 20px;
+    }
+
+    .report-period {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .report-date {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .header-line {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent-amber) 0%, var(--border) 50%, transparent 100%);
+    }
+
+    /* KPI Cards */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 100px;
+    }
+
+    .kpi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 32px 24px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease forwards;
+      transition: all 0.3s ease;
+    }
+
+    .kpi-card:nth-child(1) { animation-delay: 0.1s; }
+    .kpi-card:nth-child(2) { animation-delay: 0.2s; }
+    .kpi-card:nth-child(3) { animation-delay: 0.3s; }
+    .kpi-card:nth-child(4) { animation-delay: 0.4s; }
+
+    .kpi-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+      border-color: var(--accent-amber-dim);
+    }
+
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--accent-amber);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .kpi-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .kpi-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    .kpi-value {
+      font-family: var(--font-mono);
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .kpi-unit {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-left: 4px;
+    }
+
+    .kpi-change {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+
+    .kpi-change.positive {
+      color: var(--accent-green);
+      background: rgba(74, 222, 128, 0.1);
+    }
+
+    .kpi-change.negative {
+      color: var(--accent-red);
+      background: rgba(248, 113, 113, 0.1);
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 100px;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease forwards;
+      animation-delay: 0.5s;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 24px;
+      margin-bottom: 48px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-number {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--accent-amber);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 500;
+    }
+
+    /* Asset Distribution */
+    .asset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .asset-chart {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 40px;
+      position: relative;
+    }
+
+    .donut-chart {
+      width: 100%;
+      aspect-ratio: 1;
+      position: relative;
+    }
+
+    .donut-chart svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .donut-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    .donut-center-value {
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 500;
+    }
+
+    .donut-center-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .asset-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+      cursor: default;
+    }
+
+    .legend-item:hover {
+      background: var(--bg-card-hover);
+      transform: translateX(8px);
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .legend-info {
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .legend-label {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .legend-value {
+      font-family: var(--font-mono);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .legend-percent {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      width: 50px;
+      text-align: right;
+    }
+
+    /* New Loans Table */
+    .table-wrapper {
+      overflow-x: auto;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: 13px;
+    }
+
+    .data-table th {
+      text-align: left;
+      padding: 16px 20px;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .data-table td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .data-table tr {
+      transition: background 0.2s ease;
+    }
+
+    .data-table tbody tr:hover {
+      background: var(--bg-card);
+    }
+
+    .data-table .num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .data-table .highlight-row {
+      background: rgba(232, 168, 73, 0.05);
+    }
+
+    /* Repayment Section */
+    .repayment-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .repayment-stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 28px;
+    }
+
+    .repayment-stat-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+
+    .repayment-stat-value {
+      font-family: var(--font-mono);
+      font-size: 32px;
+      font-weight: 500;
+    }
+
+    .repayment-stat-value .unit {
+      font-size: 16px;
+      color: var(--text-secondary);
+      margin-left: 4px;
+    }
+
+    /* Forecast Section */
+    .forecast-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+    }
+
+    .forecast-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 24px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .forecast-card:hover {
+      border-color: var(--accent-amber-dim);
+      transform: translateY(-4px);
+    }
+
+    .forecast-card.total {
+      border-color: var(--accent-amber);
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(232, 168, 73, 0.08) 100%);
+    }
+
+    .forecast-bucket {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+
+    .forecast-value {
+      font-family: var(--font-mono);
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .forecast-change {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    .forecast-change.up {
+      color: var(--accent-red);
+      background: rgba(248, 113, 113, 0.1);
+    }
+
+    .forecast-change.down {
+      color: var(--accent-green);
+      background: rgba(74, 222, 128, 0.1);
+    }
+
+    /* Notes Section */
+    .notes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .note-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 28px;
+    }
+
+    .note-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 16px;
+      color: var(--accent-amber);
+    }
+
+    .note-list {
+      list-style: none;
+    }
+
+    .note-list li {
+      font-size: 14px;
+      color: var(--text-secondary);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .note-list li:last-child {
+      border-bottom: none;
+    }
+
+    .note-bullet {
+      color: var(--accent-amber);
+      font-family: var(--font-mono);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: 120px;
+      padding-top: 40px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .footer-text {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    .footer-text a {
+      color: var(--accent-amber);
+      text-decoration: none;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes countUp {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .asset-grid {
+        grid-template-columns: 1fr;
+      }
+      .forecast-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .repayment-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .notes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 60px 20px 80px;
+      }
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+      .header-top {
+        flex-direction: column;
+        gap: 40px;
+      }
+      .header-right {
+        text-align: left;
+      }
+      .forecast-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .repayment-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Bar Chart */
+    .bar-chart {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .bar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bar-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      width: 50px;
+    }
+
+    .bar-track {
+      flex: 1;
+      height: 8px;
+      background: var(--bg-secondary);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 1s ease;
+    }
+
+    .bar-value {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-secondary);
+      width: 50px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-top">
+        <div class="header-left">
+          <div class="report-label">Monthly Asset Quality Report</div>
+          <h1 class="report-title">BNPL资产质量报告</h1>
+          <p class="report-subtitle">Buy Now, Pay Later</p>
+        </div>
+        <div class="header-right">
+          <div class="report-period">报告期：2026年3月</div>
+          <div class="report-date">生成日期：2026-03-20</div>
+        </div>
+      </div>
+      <div class="header-line"></div>
+    </header>
+
+    <!-- KPI Cards -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">总订单数</div>
+        <div class="kpi-value"><span class="counter" data-target="15762097">0</span><span class="kpi-unit">笔</span></div>
+        <div class="kpi-change positive">↑ 4.2%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">总资产 (AR)</div>
+        <div class="kpi-value"><span class="counter" data-target="236.20" data-decimals="2">0</span><span class="kpi-unit">B</span></div>
+        <div class="kpi-change positive">↑ 2.1%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">整体还款率</div>
+        <div class="kpi-value"><span class="counter" data-target="66.4" data-decimals="1">0</span><span class="kpi-unit">%</span></div>
+        <div class="kpi-change negative">↓ 8.3%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">M3+占比</div>
+        <div class="kpi-value"><span class="counter" data-target="5.2" data-decimals="1">0</span><span class="kpi-unit">%</span></div>
+        <div class="kpi-change negative">↑ 0.3%</div>
+      </div>
+    </section>
+
+    <!-- Section 1: Asset Distribution -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-number">01</span>
+        <h2 class="section-title">月初资产质量分布</h2>
+      </div>
+      <div class="asset-grid">
+        <div class="asset-chart">
+          <div class="donut-chart">
+            <svg viewBox="0 0 200 200">
+              <!-- M0: 85.5% -->
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#4ade80" stroke-width="28"
+                stroke-dasharray="375.6 440" stroke-dashoffset="0" opacity="0.9"/>
+              <!-- M1: 4.5% -->
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#60a5fa" stroke-width="28"
+                stroke-dasharray="19.8 440" stroke-dashoffset="-375.6" opacity="0.9"/>
+              <!-- M2: 2.7% -->
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#fb923c" stroke-width="28"
+                stroke-dasharray="11.9 440" stroke-dashoffset="-395.4" opacity="0.9"/>
+              <!-- M3: 2.0% -->
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#f472b6" stroke-width="28"
+                stroke-dasharray="8.8 440" stroke-dashoffset="-407.3" opacity="0.9"/>
+              <!-- M3+: 5.2% -->
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#f87171" stroke-width="28"
+                stroke-dasharray="22.9 440" stroke-dashoffset="-416.1" opacity="0.9"/>
+            </svg>
+            <div class="donut-center">
+              <div class="donut-center-value">236.2B</div>
+              <div class="donut-center-label">总资产</div>
+            </div>
+          </div>
+        </div>
+        <div class="asset-legend">
+          <div class="legend-item">
+            <div class="legend-color" style="background: #4ade80;"></div>
+            <div class="legend-info">
+              <span class="legend-label">M0 — 正常</span>
+              <span class="legend-value">202.05B</span>
+              <span class="legend-percent">85.5%</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #60a5fa;"></div>
+            <div class="legend-info">
+              <span class="legend-label">M1 — 逾期1-30天</span>
+              <span class="legend-value">10.61B</span>
+              <span class="legend-percent">4.5%</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #fb923c;"></div>
+            <div class="legend-info">
+              <span class="legend-label">M2 — 逾期31-60天</span>
+              <span class="legend-value">6.35B</span>
+              <span class="legend-percent">2.7%</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #f472b6;"></div>
+            <div class="legend-info">
+              <span class="legend-label">M3 — 逾期61-90天</span>
+              <span class="legend-value">4.84B</span>
+              <span class="legend-percent">2.0%</span>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-color" style="background: #f87171;"></div>
+            <div class="legend-info">
+              <span class="legend-label">M3+ — 逾期90天以上</span>
+              <span class="legend-value">12.36B</span>
+              <span class="legend-percent">5.2%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: New Loans -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-number">02</span>
+        <h2 class="section-title">本月新增放款</h2>
+      </div>
+      <div class="asset-grid">
+        <div>
+          <div class="repayment-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="repayment-stat">
+              <div class="repayment-stat-label">累计订单数</div>
+              <div class="repayment-stat-value">3,049,655</div>
+            </div>
+            <div class="repayment-stat">
+              <div class="repayment-stat-label">累计AR</div>
+              <div class="repayment-stat-value">50.58<span class="unit">B</span></div>
+            </div>
+            <div class="repayment-stat">
+              <div class="repayment-stat-label">日均订单数</div>
+              <div class="repayment-stat-value">152,483</div>
+            </div>
+            <div class="repayment-stat">
+              <div class="repayment-stat-label">日均AR</div>
+              <div class="repayment-stat-value">2.529<span class="unit">B</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>日期</th>
+                <th class="num">订单数</th>
+                <th class="num">AR (B)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="highlight-row">
+                <td>2026-03-01</td>
+                <td class="num">210,332</td>
+                <td class="num">3.687</td>
+              </tr>
+              <tr>
+                <td>2026-03-05</td>
+                <td class="num">181,062</td>
+                <td class="num">2.800</td>
+              </tr>
+              <tr>
+                <td>2026-03-10</td>
+                <td class="num">169,280</td>
+                <td class="num">2.811</td>
+              </tr>
+              <tr>
+                <td>2026-03-15</td>
+                <td class="num">128,885</td>
+                <td class="num">2.462</td>
+              </tr>
+              <tr>
+                <td>2026-03-20</td>
+                <td class="num">33,110</td>
+                <td class="num">0.537</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: Repayment -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-number">03</span>
+        <h2 class="section-title">本月还款情况</h2>
+      </div>
+      <div class="repayment-grid">
+        <div class="repayment-stat">
+          <div class="repayment-stat-label">本月应还账单总数</div>
+          <div class="repayment-stat-value">6,960,010</div>
+        </div>
+        <div class="repayment-stat">
+          <div class="repayment-stat-label">本月已还账单数</div>
+          <div class="repayment-stat-value">7,248,249</div>
+        </div>
+        <div class="repayment-stat">
+          <div class="repayment-stat-label">整体还款率</div>
+          <div class="repayment-stat-value">66.4<span class="unit">%</span></div>
+        </div>
+      </div>
+      <div class="asset-chart" style="margin-top: 32px;">
+        <div class="section-number" style="margin-bottom: 20px;">还款高峰日</div>
+        <div class="bar-chart">
+          <div class="bar-row">
+            <span class="bar-label">03-02</span>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 92.6%; background: #4ade80;"></div>
+            </div>
+            <span class="bar-value">92.6%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">03-10</span>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 91.2%; background: #4ade80;"></div>
+            </div>
+            <span class="bar-value">91.2%</span>
+          </div>
+          <div class="bar-row">
+            <span class="bar-label">03-25</span>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: 30.3%; background: #fb923c;"></div>
+            </div>
+            <span class="bar-value">30.3%</span>
+          </div>
+        </div>
+        <p style="font-family: var(--font-mono); font-size: 12px; color: var(--text-dim); margin-top: 16px;">
+          注：3月25日应还金额最高（32.43B），还款率仅30.3%，需关注逾期风险
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 4: Forecast -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-number">04</span>
+        <h2 class="section-title">3月末资产质量预测</h2>
+      </div>
+      <div class="forecast-grid">
+        <div class="forecast-card">
+          <div class="forecast-bucket">M0</div>
+          <div class="forecast-value">248B</div>
+          <span class="forecast-change up">↑ 7.4%</span>
+        </div>
+        <div class="forecast-card">
+          <div class="forecast-bucket">M1</div>
+          <div class="forecast-value">12B</div>
+          <span class="forecast-change up">↑ 13.1%</span>
+        </div>
+        <div class="forecast-card">
+          <div class="forecast-bucket">M2</div>
+          <div class="forecast-value">7B</div>
+          <span class="forecast-change up">↑ 10.2%</span>
+        </div>
+        <div class="forecast-card">
+          <div class="forecast-bucket">M3</div>
+          <div class="forecast-value">5.4B</div>
+          <span class="forecast-change up">↑ 11.6%</span>
+        </div>
+        <div class="forecast-card">
+          <div class="forecast-bucket">M3+</div>
+          <div class="forecast-value">12.8B</div>
+          <span class="forecast-change up">↑ 3.6%</span>
+        </div>
+        <div class="forecast-card total" style="grid-column: span 5;">
+          <div class="forecast-bucket">合计</div>
+          <div class="forecast-value">285.20B</div>
+          <span class="forecast-change up">↑ 20.7%</span>
+          <p style="font-family: var(--font-mono); font-size: 11px; color: var(--text-dim); margin-top: 8px;">
+            AR增长主要由3月新增放款（约50.58B）贡献
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Notes -->
+    <section class="section">
+      <div class="section-header">
+        <span class="section-number">05</span>
+        <h2 class="section-title">数据说明</h2>
+      </div>
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3 class="note-title">数据来源</h3>
+          <ul class="note-list">
+            <li><span class="note-bullet">—</span>2月末资产分布：asset_allocation_afi 分饼系统</li>
+            <li><span class="note-bullet">—</span>3月新增放款：snap.afi_id_asset_t_asset_order</li>
+            <li><span class="note-bullet">—</span>3月还款数据：snap.afi_id_asset_t_asset_repayment_bill</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3 class="note-title">统计口径</h3>
+          <ul class="note-list">
+            <li><span class="note-bullet">—</span>AR：未偿还本金 + 应计利息</li>
+            <li><span class="note-bullet">—</span>BNPL：business_type IN (1, 6)</li>
+            <li><span class="note-bullet">—</span>M0: 0天 / M1: 1-30天 / M2: 31-60天 / M3: 61-90天 / M3+: 90天以上</li>
+          </ul>
+        </div>
+        <div class="note-card">
+          <h3 class="note-title">注意事项</h3>
+          <ul class="note-list">
+            <li><span class="note-bullet">—</span>分饼系统数据为月末快照</li>
+            <li><span class="note-bullet">—</span>3月每日新增含部分未结清订单</li>
+            <li><span class="note-bullet">—</span>预测结果为简略估算模型</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p class="footer-text">如需进一步分析，请联系数据团队</p>
+    </footer>
+  </div>
+
+  <script>
+    // Simple counter animation
+    function animateCounters() {
+      const counters = document.querySelectorAll('.counter');
+      counters.forEach(counter => {
+        const target = parseFloat(counter.dataset.target);
+        const decimals = parseInt(counter.dataset.decimals) || 0;
+        const duration = 1500;
+        const start = performance.now();
+
+        function update(currentTime) {
+          const elapsed = currentTime - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const easeOut = 1 - Math.pow(1 - progress, 3);
+          const current = target * easeOut;
+
+          if (decimals > 0) {
+            counter.textContent = current.toFixed(decimals);
+          } else {
+            counter.textContent = Math.floor(current).toLocaleString();
+          }
+
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          }
+        }
+
+        requestAnimationFrame(update);
+      });
+    }
+
+    // Animate bars on scroll
+    function animateBars() {
+      const bars = document.querySelectorAll('.bar-fill');
+      bars.forEach((bar, index) => {
+        const width = bar.style.width;
+        bar.style.width = '0%';
+        setTimeout(() => {
+          bar.style.width = width;
+        }, 500 + index * 200);
+      });
+    }
+
+    // Intersection Observer for animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          if (entry.target.classList.contains('bar-chart')) {
+            animateBars();
+          }
+          if (entry.target.classList.contains('kpi-grid')) {
+            animateCounters();
+          }
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.kpi-grid, .bar-chart').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Trigger initial animations after load
+    window.addEventListener('load', () => {
+      setTimeout(animateCounters, 800);
+    });
+  </script>
+</body>
+</html>
